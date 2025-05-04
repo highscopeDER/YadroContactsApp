@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="24dp"
+    >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            >
+
+            <ImageView
+                android:id="@+id/avatarView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintDimensionRatio="1"
+                android:src="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/nameView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toEndOf="@id/avatarView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/avatarView"
+                app:layout_constraintBottom_toTopOf="@id/phoneView"
+                android:layout_marginHorizontal="32dp"
+                android:textSize="18sp"
+                />
+
+            <TextView
+                android:id="@+id/phoneView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toEndOf="@id/avatarView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/avatarView"
+                app:layout_constraintTop_toBottomOf="@id/nameView"
+                android:layout_marginHorizontal="32dp"
+                android:textSize="14sp"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
+

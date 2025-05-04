@@ -1,6 +1,8 @@
 package com.daakimov.yadrocontactsapp
 
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.daakimov.yadrocontactsapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -32,17 +35,39 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                viewModel
+                binding.contactsRcView.adapter = viewModel.getRcAdapter()
 
-
+                launch {
+                    viewModel.uiState.collectLatest {
+                        when(it) {
+                            MainViewModel.UiState.Empty -> {}
+                            MainViewModel.UiState.Loading -> showProgressBar()
+                            is MainViewModel.UiState.ShowContacts -> {
+                                showRc()
+                            }
+                        }
+                    }
+                }
             }
         }
 
-
-
     }
+
+
+    private fun showProgressBar(){
+        binding.progressView.visibility = VISIBLE
+        binding.contactsRcView.visibility = GONE
+    }
+
+    private fun showRc(){
+        binding.progressView.visibility = GONE
+        binding.contactsRcView.visibility = VISIBLE
+    }
+
 
 }
