@@ -15,15 +15,25 @@ class GetContactsUseCase(private val contactsRepository: ContactsRepository) {
         emit(
             ContactsRcList(
                 it
-                    .map { model -> model.name.first() }
+                    .map { model -> model.name.lowercase().first() }
                     .distinct()
+                    .filter { head -> head.isLetter() }
+                    .toMutableList().apply { add('#') }
                     .flatMap { head: Char ->
                         mutableListOf<RcListCell>(RcListCell.Header(head.toString())).apply {
-                            addAll(
-                                it
-                                .filter { model -> model.name.first() == head}
-                                .map { model -> RcListCell.Contact(data = model) }
-                            )
+                            if (head != '#') {
+                                addAll(
+                                    it
+                                        .filter { model -> model.name.lowercase().first() == head}
+                                        .map { model -> RcListCell.Contact(data = model) }
+                                )
+                            } else {
+                                addAll(
+                                    it
+                                        .filter { model -> !model.name.lowercase().first().isLetter() }
+                                        .map { model -> RcListCell.Contact(data = model) }
+                                )
+                            }
 
                         }
                     }

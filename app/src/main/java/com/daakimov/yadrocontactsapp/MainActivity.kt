@@ -6,6 +6,7 @@ import android.view.View.VISIBLE
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
@@ -17,6 +18,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.security.Permission
+import java.security.Permissions
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -34,8 +37,13 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-
-
+        requestPermissions(
+            arrayOf(
+                android.Manifest.permission.READ_CONTACTS,
+                android.Manifest.permission.CALL_PHONE
+                ),
+            0
+        )
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -53,6 +61,13 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
+
+                launch {
+                    viewModel.makePhoneCall.collectLatest {
+                        startActivity(it)
+                    }
+                }
+
             }
         }
 

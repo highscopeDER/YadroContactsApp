@@ -1,5 +1,8 @@
 package com.daakimov.yadrocontactsapp
 
+import android.content.res.AssetFileDescriptor
+import android.net.Uri
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.daakimov.domain.models.RcListCell
@@ -16,6 +19,19 @@ sealed class ContactsRcViewHolders(binding: ViewBinding) : RecyclerView.ViewHold
             model as RcListCell.Contact
             binding.nameView.text = model.data.name
             binding.phoneView.text = model.data.phone
+
+            model.data.photoUri?.let {
+                binding.avatarView.setImageURI(Uri.parse(it))
+            } ?: binding.avatarView.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    binding.root.context,
+                    R.drawable.ic_launcher_foreground
+                )
+            )
+        }
+
+        fun setOnClickListener(function: () -> Unit?) {
+            binding.root.setOnClickListener { function.invoke() }
         }
 
     }

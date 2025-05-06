@@ -1,7 +1,6 @@
 package com.daakimov.yadrocontactsapp
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.daakimov.domain.models.RcListCell
@@ -12,10 +11,16 @@ import com.daakimov.yadrocontactsapp.databinding.ContactsRcItemHeaderBinding
 class ContactsRcAdapter : RecyclerView.Adapter<ContactsRcViewHolders>() {
 
     private val data: MutableList<RcListCell> = mutableListOf()
+    private var contactOnClick: ((RcListCell.Contact) -> Unit)? = null
 
     fun setData(l: List<RcListCell>) {
         data.clear()
         data.addAll(l)
+        notifyDataSetChanged()
+    }
+
+    fun setContactOnClickListener(l: (RcListCell.Contact) -> Unit ) {
+        contactOnClick = l
         notifyDataSetChanged()
     }
 
@@ -49,6 +54,9 @@ class ContactsRcAdapter : RecyclerView.Adapter<ContactsRcViewHolders>() {
 
     override fun onBindViewHolder(holder: ContactsRcViewHolders, position: Int) {
         holder.bind(data[position])
+        if (holder is ContactsRcViewHolders.Contact) holder.setOnClickListener {
+            contactOnClick?.invoke((data[position] as RcListCell.Contact))
+        }
     }
 
 }
