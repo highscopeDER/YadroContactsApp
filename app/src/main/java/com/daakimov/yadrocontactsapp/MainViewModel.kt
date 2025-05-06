@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daakimov.domain.usecases.GetContactsUseCase
 import com.daakimov.domain.usecases.RequestDuplicatesDeletionUseCase
+import com.daakimov.domain.usecases.UnbindUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -21,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getContactsUseCase: GetContactsUseCase,
-    private val requestDuplicatesDeletionUseCase: RequestDuplicatesDeletionUseCase
+    private val requestDuplicatesDeletionUseCase: RequestDuplicatesDeletionUseCase,
+    private val unbindUseCase: UnbindUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.Empty)
@@ -61,7 +64,19 @@ class MainViewModel @Inject constructor(
             requestDuplicatesDeletionUseCase.execute().collectLatest {
                 _makeToast.emit(it)
             }
+        }.invokeOnCompletion {
+            viewModelScope.launch {
+                _uiState.value = UiState.Loading
+                delay(1000)
+                getContactsUseCase.execute().collectLatest {
+                    contactsRcAdapter.setData(it.list)
+                    _uiState.value = UiState.ShowContacts
+                    unbindUseCase.execute()
+                }
+
+            }
         }
+
     }
 
     fun getRcAdapter() = contactsRcAdapter

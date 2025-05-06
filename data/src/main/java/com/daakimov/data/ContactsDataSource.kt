@@ -9,6 +9,7 @@ import android.provider.ContactsContract.Contacts
 import android.provider.ContactsContract.RawContacts
 import androidx.core.database.getStringOrNull
 import com.daakimov.domain.models.ContactModel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -54,7 +55,8 @@ class ContactsDataSource(private val context: Context) {
 
     fun getContacts(): Flow<List<ContactModel>> = flow { emit(fetchContactsWithPhoneNumber()) }
 
-    fun wtf(){
+    fun startContactsService() {
+
         val intent = Intent("com.daakimov.contactsservicemodule.SERVICE_ACCESS")
         val services = context.packageManager.queryIntentServices(intent, 0)
         if (services.isEmpty()) {
@@ -68,11 +70,12 @@ class ContactsDataSource(private val context: Context) {
             component = ComponentName(packageName, className)
         }
 
+
         context.bindService(res, ContactsServiceConnection, BIND_AUTO_CREATE)
 
     }
 
-    fun wtff(){
+    fun stopContactsService(){
         context.unbindService(ContactsServiceConnection)
     }
 

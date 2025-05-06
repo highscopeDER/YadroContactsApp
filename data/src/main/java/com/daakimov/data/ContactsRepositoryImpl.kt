@@ -10,8 +10,12 @@ class ContactsRepositoryImpl(private val dataSource: ContactsDataSource) : Conta
     override suspend fun requestContacts(): Flow<List<ContactModel>> = dataSource.getContacts()
 
     override suspend fun deleteDuplicates(): Flow<String> {
-        dataSource.wtf()
+        dataSource.startContactsService()
         return flow { emit("service start") }
+    }
+
+    override suspend fun unbind(){
+        dataSource.stopContactsService()
     }
 
 }

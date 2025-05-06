@@ -9,4 +9,6 @@ interface ContactsRepository {
 
     suspend fun deleteDuplicates(): Flow<String>
 
+    suspend fun unbind()
+
 }

@@ -5,6 +5,7 @@ import android.content.ServiceConnection
 import android.os.IBinder
 import android.util.Log
 import com.daakimov.contactsservicemodule.AidlInterface
+import kotlinx.coroutines.flow.Flow
 
 
 object ContactsServiceConnection : ServiceConnection {
