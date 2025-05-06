@@ -37,8 +37,7 @@ class ContactsDataSource(private val context: Context) {
                 for (pos in 0 until it.count) {
                     it.moveToPosition(pos)
                     val accType: String? = it.getStringOrNull(it.getColumnIndexOrThrow(RawContacts.ACCOUNT_TYPE))
-                    if (accType?.contains(".phone") != false)
-                    res.add(
+                    if (accType?.contains(".phone") != false) res.add(
                         ContactModel(
                             id =  it.getInt(it.getColumnIndexOrThrow(CommonDataKinds.Phone.CONTACT_ID)),
                             name = it.getString(it.getColumnIndexOrThrow(CommonDataKinds.Phone.DISPLAY_NAME)),

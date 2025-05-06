@@ -76,12 +76,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun showProgressBar(){
         binding.progressView.visibility = VISIBLE
-        binding.contactsRcView.visibility = GONE
+        binding.contactsGroup.visibility = GONE
     }
 
     private fun showRc(){
         binding.progressView.visibility = GONE
-        binding.contactsRcView.visibility = VISIBLE
+        binding.contactsGroup.visibility = VISIBLE
     }
 
 

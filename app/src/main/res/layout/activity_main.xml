@@ -12,12 +12,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/contactsGroup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:constraint_referenced_ids="contactsRcView, deleteDuplicatesButtonView"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contactsRcView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        />
+
+    <Button
+        android:id="@+id/deleteDuplicatesButtonView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="delete duplicate contacts"
+        android:layout_marginHorizontal="48dp"
+        android:layout_marginVertical="24dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
