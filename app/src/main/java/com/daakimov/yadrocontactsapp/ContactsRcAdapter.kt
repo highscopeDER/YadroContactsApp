@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.daakimov.domain.models.RcListCell
+import com.daakimov.yadrocontactsapp.ContactsRcViewHolders
+import com.daakimov.yadrocontactsapp.R
 import com.daakimov.yadrocontactsapp.databinding.ContactsRcItemContactBinding
 import com.daakimov.yadrocontactsapp.databinding.ContactsRcItemHeaderBinding
 

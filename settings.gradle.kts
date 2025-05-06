@@ -23,3 +23,4 @@ rootProject.name = "Yadro Contacts App"
 include(":app")
 include(":domain")
 include(":data")
+include(":contactsservicemodule")

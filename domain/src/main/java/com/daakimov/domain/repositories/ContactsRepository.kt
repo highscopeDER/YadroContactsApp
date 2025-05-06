@@ -7,4 +7,6 @@ interface ContactsRepository {
 
     suspend fun requestContacts(): Flow<List<ContactModel>>
 
+    suspend fun deleteDuplicates(): Flow<String>
+
 }

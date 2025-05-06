@@ -1,6 +1,9 @@
 package com.daakimov.data
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.Context.BIND_AUTO_CREATE
+import android.content.Intent
 import android.provider.ContactsContract.CommonDataKinds
 import android.provider.ContactsContract.Contacts
 import android.provider.ContactsContract.RawContacts
@@ -16,7 +19,6 @@ class ContactsDataSource(private val context: Context) {
     private val selection = "(${CommonDataKinds.Phone.CONTACT_ID} in " +
             "(select ${Contacts._ID} from Contacts" +
             " where ${Contacts.HAS_PHONE_NUMBER} = '1'))"
-
 
     private fun fetchContactsWithPhoneNumber(): List<ContactModel> = context.contentResolver.query(
         CommonDataKinds.Phone.CONTENT_URI,
@@ -51,6 +53,29 @@ class ContactsDataSource(private val context: Context) {
     }
 
     fun getContacts(): Flow<List<ContactModel>> = flow { emit(fetchContactsWithPhoneNumber()) }
+
+    fun wtf(){
+        val intent = Intent("com.daakimov.contactsservicemodule.SERVICE_ACCESS")
+        val services = context.packageManager.queryIntentServices(intent, 0)
+        if (services.isEmpty()) {
+            throw IllegalStateException("Приложение-сервер не установлено")
+        }
+
+        val res = Intent(intent).apply {
+            val resolveInfo = services[0]
+            val packageName = resolveInfo.serviceInfo.packageName
+            val className = resolveInfo.serviceInfo.name
+            component = ComponentName(packageName, className)
+        }
+
+        context.bindService(res, ContactsServiceConnection, BIND_AUTO_CREATE)
+
+    }
+
+    fun wtff(){
+        context.unbindService(ContactsServiceConnection)
+    }
+
 
 
 }

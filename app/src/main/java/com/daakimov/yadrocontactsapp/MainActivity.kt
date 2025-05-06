@@ -1,25 +1,23 @@
 package com.daakimov.yadrocontactsapp
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.daakimov.data.ContactsServiceConnection
 import com.daakimov.yadrocontactsapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.security.Permission
-import java.security.Permissions
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -58,6 +56,8 @@ class MainActivity : AppCompatActivity() {
                             is MainViewModel.UiState.ShowContacts -> {
                                 showRc()
                             }
+
+
                         }
                     }
                 }
@@ -68,11 +68,21 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
+                launch {
+                    viewModel.makeToast.collectLatest {
+                        Toast.makeText(this@MainActivity, it, Toast.LENGTH_LONG).show()
+                    }
+                }
+
             }
         }
 
-    }
+        binding.deleteDuplicatesButtonView.setOnClickListener {
+            viewModel.deleteDuplicates()
 
+        }
+
+    }
 
     private fun showProgressBar(){
         binding.progressView.visibility = VISIBLE
@@ -83,6 +93,8 @@ class MainActivity : AppCompatActivity() {
         binding.progressView.visibility = GONE
         binding.contactsGroup.visibility = VISIBLE
     }
+
+
 
 
 }

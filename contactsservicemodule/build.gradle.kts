@@ -1,16 +1,14 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.kapt)
 }
 
 android {
-    namespace = "com.daakimov.yadrocontactsapp"
+    namespace = "com.daakimov.contactsservicemodule"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.daakimov.yadrocontactsapp"
+        applicationId = "com.daakimov.contactsservicemodule"
         minSdk = 29
         targetSdk = 34
         versionCode = 1
@@ -28,12 +26,6 @@ android {
             )
         }
     }
-
-    buildFeatures {
-        viewBinding = true
-        aidl = true
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -42,24 +34,12 @@ android {
         jvmTarget = "11"
     }
 
-    kapt {
-        correctErrorTypes = true
+    buildFeatures {
+        aidl = true
     }
-
 }
 
 dependencies {
-
-    implementation(project(":domain"))
-    implementation(project(":data"))
-
-    implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
-
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
-    implementation(libs.lifecycle.viewmodel)
-    implementation(libs.lifecycle.runtime)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

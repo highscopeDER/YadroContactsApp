@@ -1,6 +1,5 @@
 package com.daakimov.yadrocontactsapp
 
-import android.content.res.AssetFileDescriptor
 import android.net.Uri
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
